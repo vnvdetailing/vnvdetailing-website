@@ -26,11 +26,17 @@
             gap: 20px;
             background-color: #252525;
             padding: 15px;
+            flex-wrap: wrap;
         }
         .nav a {
             color: #ffffff;
             text-decoration: none;
             font-size: 18px;
+            padding: 10px;
+            transition: color 0.3s ease-in-out;
+        }
+        .nav a:hover {
+            color: #f39c12; /* Orange */
         }
         .container {
             padding: 20px;
@@ -41,6 +47,18 @@
             padding: 20px;
             margin: 10px;
             border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .service-box:hover {
+            transform: scale(1.05);
+        }
+        .contact a {
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contact a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
