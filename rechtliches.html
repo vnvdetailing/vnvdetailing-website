@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VnV Detailing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Grund-Stile */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #1f2937;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    /* Container für max Breite */
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Navigationsleiste (Header) fixiert oben */
+    header {
+      background-color: #ebf8ff; /* hellblauer Hintergrund */
+      border-bottom: 1px solid #bee3f8;
+      padding: 1rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed; /* fixiert oben */
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Wrapper für Logo + Titel */
+    .logo-title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Logo-Kreis */
+    .logo-wrapper {
+      background-color: #000;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Logo-Bild */
+    .logo-image {
+      width: auto;
+      height: 70%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Titel */
+    h1 {
+      font-size: 1.8rem;
+      color: #3182ce;
+      font-weight: 700;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* Navigation (Desktop) */
+    nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      position: relative;
+      z-index: 15;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Navigation Links */
+    nav a {
+      color: white;
+      background-color: #3182ce;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    nav a:hover {
+      background-color: #2b6cb0;
+    }
+
+    /* Hamburger Button (standard versteckt) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1100;
+    }
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background-color: #3182ce;
+      border-radius: 2px;
+      transition: all 0.3s linear;
+      position: relative;
+      transform-origin: 1px;
+    }
+
+    /* Hamburger animiert zum X wenn offen */
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg);
+      background-color: white;
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg);
+      background-color: white;
+    }
+
+    /* Mobile Ansicht */
+    @media (max-width: 768px) {
+      /* Navigation als Seitenmenü rechts */
+      nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #3182ce;
+        flex-direction: column;
+        padding-top: 4rem;
+        gap: 2rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -2px 0 12px rgba(0,0,0,0.3);
+        z-index: 1050;
+      }
+      nav.open {
+        transform: translateX(0);
+      }
+
+      /* Navigation Links größer und volle Breite */
+      nav a {
+        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: center;
+        border-radius: 0;
+        pointer-events: auto; /* Links anklickbar */
+      }
+
+      /* Hamburger Button sichtbar */
+      .hamburger {
+        display: flex;
+      }
+
+      /* Logo Größe bleibt gleich */
+      .logo-wrapper {
+        width: 80px;
+        height: 80px;
+      }
+      .logo-image {
+        height: 70%;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Body-Inhalt bekommt oben padding, damit Header nicht überlappt */
+    body {
+      padding-top: 100px; /* Header Höhe + etwas Abstand */
+    }
+
+
+
+  footer {
+      font-size: 0.875rem;
+      color: #718096;
+      text-align: center;
+      border-top: 1px solid #bee3f8;
+      padding: 1rem 1rem;
+      background-color: #ebf8ff;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigationsleiste / Header -->
+  <header class="container" role="banner">
+    <div class="logo-title-wrapper">
+      <div class="logo-wrapper" role="img" aria-label="Firmenlogo">
+        <img src="https://drive.google.com/thumbnail?id=1zgMHDqYmmIBx9IqEEMlX4Wm6Pp54MFyK" alt="VnV Detailing Logo" class="logo-image" />
+      </div>
+      <h1>VnV Detailing</h1>
+    </div>
+
+    <!-- Hamburger Menü Button -->
+    <button class="hamburger" aria-label="Navigation ein-/ausblenden" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Navigation -->
+    <nav id="primary-navigation" aria-label="Hauptnavigation" tabindex="-1">
+      <a href="index.html">Hauptseite</a>
+      <a href="leistungen.html">Leistungen</a>
+      <a href="ueberuns.html">Über uns</a>
+      <a href="rechtliches.html">Rechtliches</a>
+    </nav>
+  </header>
+
+  <script>
+    // Hamburger Menü Funktion
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.getElementById('primary-navigation');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      
+      if (isOpen) {
+        nav.setAttribute('tabindex', '0');
+        nav.focus();
+        document.body.style.overflow = 'hidden'; // Scroll verhindern bei offenem Menü
+      } else {
+        nav.setAttribute('tabindex', '-1');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Menü schließen wenn auf Link geklickt (mobil)
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', false);
+          nav.setAttribute('tabindex', '-1');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Menü schließen wenn außerhalb klicken
+    document.addEventListener('click', (event) => {
+      if (!nav.contains(event.target) && !hamburger.contains(event.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+        nav.setAttribute('tabindex', '-1');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+
+
+
+
+
+
+
+
+<main class="container" style="max-width: 900px; padding: 2rem 1rem;">
+  <h2 style="color: #2b6cb0; font-size: 2rem; margin-bottom: 1rem;">Rechtliche Informationen</h2>
+
+  <!-- Tab Buttons -->
+  <div id="tab-buttons" style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+    <button class="tab-btn active" data-tab="agbs" style="padding: 0.6rem 1.2rem; border: none; border-radius: 9999px; background-color: #3182ce; color: white; cursor: pointer; font-weight: 600; transition: background-color 0.3s;">
+      AGBs
+    </button>
+    <button class="tab-btn" data-tab="datenschutz" style="padding: 0.6rem 1.2rem; border: none; border-radius: 9999px; background-color: #a0aec0; color: white; cursor: pointer; font-weight: 600; transition: background-color 0.3s;">
+      Datenschutz
+    </button>
+    <button class="tab-btn" data-tab="impressum" style="padding: 0.6rem 1.2rem; border: none; border-radius: 9999px; background-color: #a0aec0; color: white; cursor: pointer; font-weight: 600; transition: background-color 0.3s;">
+      Impressum
+    </button>
+  </div>
+
+  <!-- Tab Inhalte -->
+  <section id="tab-content" style="color: #2d3748; line-height: 1.6; font-size: 1.05rem;">
+    <article id="agbs" class="tab-panel" style="display: block;">
+      <h3 style="color: #2c5282;">Allgemeine Geschäftsbedingungen (AGBs)</h3>
+ <p><strong> <p style="color: rgb(39, 174, 252);">Geschäftsbedingungen (AGB) der Vincenzo Marino & Vincenzo Maisto VnV Detailing GbR</strong></p></p>
+    <br>
+    
+<p>1. Geltungsbereich
+Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge zwischen der
+Vincenzo Marino & Vincenzo Maisto VnV Detailing GbR (nachfolgend „Anbieter“) und ihren Kunden im Bereich der
+Fahrzeugaufbereitung.</p>
+<br>
+<p><strong>2. Leistungen</strong></p>
+<p>(1) Die angebotenen Dienstleistungen umfassen die professionelle
+Fahrzeugaufbereitung in unterschiedlichen Leistungspaketen.</p>
+<p>(2) Der Anbieter garantiert eine professionelle Aufbereitung, übernimmt jedoch keine
+Garantie für die vollständige Entfernung aller Verschmutzungen, Flecken oder Gerüche.</p>
+<br>
+<p><strong>3. Preise und Zahlungsbedingungen</strong></p>
+<p>(1) Alle angegebenen Preise sind Richtpreise und können je nach Fahrtkosten,
+besonderem Verschmutzungsgrad oder zusätzlichem Aufwand etc. variieren.</p>
+<p>(2) Der endgültige Preis wird dem Kunden vor Abschluss der Dienstleistung mitgeteilt.</p>
+<p>(3) Die Zahlung erfolgt unmittelbar nach der erbrachten Leistung in bar, per EC-Zahlung
+oder per Überweisung, sofern nicht anders vereinbart. Rechnungen sind innerhalb von
+14 Tagen zu begleichen.</p>
+<br>
+<p><strong>4. Terminvereinbarung und Stornierung</strong></p>
+<p>(1) Termine können telefonisch, per E-Mail oder über soziale Netzwerke vereinbart
+werden.</p>
+<p>(2) Stornierungen sind jederzeit kostenlos möglich. Kunden werden jedoch gebeten,
+frühzeitig Bescheid zu geben.</p>
+<p>(3) Bei wiederholten kurzfristigen Stornierungen behält sich der Anbieter das Recht vor,
+zukünftige Aufträge abzulehnen.</p>
+<br>
+<p><strong>5. Haftung</strong></p>
+<p>(1) Der Anbieter haftet nicht für bereits bestehende Schäden am Fahrzeug oder
+versteckte Mängel, die vor der Reinigung vorhanden waren.</p>
+<p>(2) Für Schäden, die durch unsachgemäße Behandlung durch den Anbieter entstehen,
+wird nur bei nachgewiesener grober Fahrlässigkeit oder Vorsatz gehaftet.</p>
+<p>(3) Der Anbieter übernimmt keine Haftung für verlorene oder beschädigte
+Gegenstände, die sich vor oder während der Reinigung im Fahrzeug befanden.</p>
+<br>
+<p><strong>6. Aufbewahrung und Rückgabe von Gegenständen</strong></p>
+<p>(1) Während der Reinigung im Fahrzeug gefundene Gegenstände, einschließlich
+Bargeld, Wertgegenstände oder persönliche Gegenstände, werden vom Anbieter sicher
+aufbewahrt.</p>
+<p>(2) Nach Abschluss der Reinigung werden diese dem Kunden bei der
+Fahrzeugübergabe zurückgegeben.</p>
+<p>(3) Für verloren gegangene oder beschädigte Gegenstände, die sich vor und während
+der Reinigung bereits im Fahrzeug befanden, übernimmt der Anbieter keine Haftung.</p>
+<br>
+<p><strong>7. Gewährleistung und Reklamationen</strong></p>
+<p>(1) Reklamationen müssen innerhalb von 5 Stunden nach Abschluss der Reinigung
+gemeldet werden.</p>
+<p>(2) Nach Ablauf dieser Frist gilt die erbrachte Leistung als akzeptiert und es besteht
+kein Anspruch auf Nachbesserung oder Rückerstattung.</p>
+<br>
+<p><strong>8. Datenschutz</strong></p>
+<p>(1) Personenbezogene Daten des Kunden werden im Rahmen der
+Dienstleistungserbringung gespeichert und verarbeitet.</p>
+<p>(2) Eine Weitergabe an Dritte erfolgt nur, soweit es zur Erfüllung gesetzlicher
+Verpflichtungen erforderlich ist (z. B. Finanzamt, Versicherungen oder Banken).</p>
+<p>(3) Der Anbieter trifft technische und organisatorische Maßnahmen, um die Sicherheit
+der Daten zu gewährleisten.</p>
+<p>(4) Weitere Informationen zur Verarbeitung personenbezogener Daten sind in der
+Datenschutzrichtlinie enthalten.</p>
+<br>
+<p><strong>9. Salvatorische Klausel</strong></p>
+<p>Sollte eine Bestimmung dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen
+Bestimmungen unberührt.</p>
+<br>
+<p><strong>10. Gerichtsstand</strong></p>
+<P>Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand ist, soweit gesetzlich
+zulässig, der Sitz der VnV Detailing GbR.</P>
+ </article>
+
+
+
+
+
+
+
+
+
+
+
+
+    <article id="datenschutz" class="tab-panel" style="display: none;">
+      <h3 style="color: #2c5282;">Datenschutzrichtlinien</h3>
+ <p><strong><p style="color: rgb(39, 174, 252);"> Datenschutz der Vincenzo Marino & Vincenzo Maisto VnV Detailing GbR</strong></p></p>
+        <br>
+        <p><strong>1. Verantwortliche Stelle</strong></p>
+            <p> Vincenzo Marino & Vincenzo Maisto VnV Detailing GbR
+        Deutschland, 57319 Bad Berleburg, Moltkestraße 31
+        vertreten durch: Vincenzo Maisto, Vincenzo Marino</p>
+        <br>
+        <p><strong>2. Erhebung und Verarbeitung personenbezogener Daten</strong></p>
+        <p>(1) Wir erheben personenbezogene Daten (z. B. Name, Telefonnummer, Adresse etc.)
+        nur zur Abwicklung der vereinbarten Dienstleistungen.</p>
+        <p>(2) Eine Weitergabe an Dritte erfolgt nur, wenn dies zur Vertragserfüllung notwendig ist
+        (z. B. Steuerberater, Finanzamt, Versicherungen etc.).</p>
+        <br>
+        <p>3. Speicherdauer und Löschung Personenbezogene Daten werden nur so lange
+        gespeichert, wie es für die Abwicklung des Vertragsverhältnisses oder aufgrund
+        gesetzlicher Vorschriften erforderlich ist.</p>
+        <br>
+        <p>4. Rechte der betroffenen Personen Kunden haben das Recht auf Auskunft,
+        Berichtigung, Löschung oder Einschränkung der Verarbeitung ihrer Daten.</p>
+        <br>
+        <p>5. Technische und organisatorische Maßnahmen setzen Sicherheitsmaßnahmen ein,
+        um personenbezogene Daten vor unbefugtem Zugriff zu schützen.</p>
+        <br>
+        <p>6. Sollte eine Bestimmung dieses Vertrags unwirksam sein, bleibt der Vertrag im Übrigen
+        bestehen.</p>
+
+    </article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <article id="impressum" class="tab-panel" style="display: none;">
+      <h3 style="color: #2c5282;">Impressum</h3>
+   <p><strong><p style="color: rgb(39, 174, 252);">Impressum der Vincenzo Marino & Vincenzo Maisto VnV Detailing GbR</strong></p></p>
+        <br>
+        <p>Vincenzo Marino & Vincenzo Maisto VnV Detailing GbR, Deutschland, 57319 Bad Berleburg, Moltkestraße 31, E-Mail:
+        vnvdetailing.blb@gmail.com, Telefon: +49 151 11255587</p>
+        <p>Vertreten durch</p>
+        <p>Vincenzo Maisto, Deutschland, 57319 Bad Berleburg, Moltkestraße 31, E-Mail:
+        vincenzo.maisto3011@gmail.com, Telefon: +49 160 96831236</p>
+        <p>Vincenzo Marino, Deutschland, 57319 Bad Berleburg, Moltkestraße 31, E-Mail:
+        vincenzom347@aol.com, Telefon: +49 176 20528993</p>
+        <br>
+        <p>Haftung für Inhalte Die Inhalte unserer Dienstleistungen wurden mit größter Sorgfalt
+        erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch
+        keine Gewähr übernehmen.</p>
+        <br>
+        <p>Angaben gemäß § 5 TMG Nach dem Telemediengesetz (TMG) müssen Unternehmen,
+        die geschäftsmäßig tätig sind, ein Impressum mit ihren Kontaktdaten bereitstellen,
+        auch wenn sie keine Website haben.</p>
+
+    </article>
+  </section>
+</main>
+
+<script>
+  // Tab Umschaltung
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Aktiven Button markieren
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.style.backgroundColor = '#a0aec0'; // grau
+      });
+      tab.classList.add('active');
+      tab.style.backgroundColor = '#3182ce'; // blau
+
+      // Passenden Inhalt anzeigen
+      const target = tab.getAttribute('data-tab');
+      panels.forEach(panel => {
+        panel.style.display = panel.id === target ? 'block' : 'none';
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+
+ <footer>
+    <p>© 2025 VnV Detailing – Mobile Fahrzeugpflege aus Bad Berleburg</p>
+    <p>57319 Bad Berleburg</p>
+    <br>
+    <p>Kontakt:</p>
+    <p>Tel.: +49 151 11255587
+    <p>E-Mail: vnvdetailing.blb@gmail.com</p>
+    </p>
+
+  </footer>
+
+
+</body>
+</html>

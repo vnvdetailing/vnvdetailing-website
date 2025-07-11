@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VnV Detailing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Grund-Stile */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #1f2937;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    /* Container für max Breite */
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Navigationsleiste (Header) fixiert oben */
+    header {
+      background-color: #ebf8ff; /* hellblauer Hintergrund */
+      border-bottom: 1px solid #bee3f8;
+      padding: 1rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed; /* fixiert oben */
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Wrapper für Logo + Titel */
+    .logo-title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Logo-Kreis */
+    .logo-wrapper {
+      background-color: #000;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Logo-Bild */
+    .logo-image {
+      width: auto;
+      height: 70%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Titel */
+    h1 {
+      font-size: 1.8rem;
+      color: #3182ce;
+      font-weight: 700;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* Navigation (Desktop) */
+    nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      position: relative;
+      z-index: 15;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Navigation Links */
+    nav a {
+      color: white;
+      background-color: #3182ce;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    nav a:hover {
+      background-color: #2b6cb0;
+    }
+
+    /* Hamburger Button (standard versteckt) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1100;
+    }
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background-color: #3182ce;
+      border-radius: 2px;
+      transition: all 0.3s linear;
+      position: relative;
+      transform-origin: 1px;
+    }
+
+    /* Hamburger animiert zum X wenn offen */
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg);
+      background-color: white;
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg);
+      background-color: white;
+    }
+
+    /* Mobile Ansicht */
+    @media (max-width: 768px) {
+      /* Navigation als Seitenmenü rechts */
+      nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #3182ce;
+        flex-direction: column;
+        padding-top: 4rem;
+        gap: 2rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -2px 0 12px rgba(0,0,0,0.3);
+        z-index: 1050;
+      }
+      nav.open {
+        transform: translateX(0);
+      }
+
+      /* Navigation Links größer und volle Breite */
+      nav a {
+        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: center;
+        border-radius: 0;
+        pointer-events: auto; /* Links anklickbar */
+      }
+
+      /* Hamburger Button sichtbar */
+      .hamburger {
+        display: flex;
+      }
+
+      /* Logo Größe bleibt gleich */
+      .logo-wrapper {
+        width: 80px;
+        height: 80px;
+      }
+      .logo-image {
+        height: 70%;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Body-Inhalt bekommt oben padding, damit Header nicht überlappt */
+    body {
+      padding-top: 100px; /* Header Höhe + etwas Abstand */
+    }
+
+
+
+  footer {
+      font-size: 0.875rem;
+      color: #718096;
+      text-align: center;
+      border-top: 1px solid #bee3f8;
+      padding: 1rem 1rem;
+      background-color: #ebf8ff;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigationsleiste / Header -->
+  <header class="container" role="banner">
+    <div class="logo-title-wrapper">
+      <div class="logo-wrapper" role="img" aria-label="Firmenlogo">
+        <img src="https://drive.google.com/thumbnail?id=1zgMHDqYmmIBx9IqEEMlX4Wm6Pp54MFyK" alt="VnV Detailing Logo" class="logo-image" />
+      </div>
+      <h1>VnV Detailing</h1>
+    </div>
+
+    <!-- Hamburger Menü Button -->
+    <button class="hamburger" aria-label="Navigation ein-/ausblenden" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Navigation -->
+    <nav id="primary-navigation" aria-label="Hauptnavigation" tabindex="-1">
+      <a href="index.html">Hauptseite</a>
+      <a href="leistungen.html">Leistungen</a>
+      <a href="ueberuns.html">Über uns</a>
+      <a href="rechtliches.html">Rechtliches</a>
+    </nav>
+  </header>
+
+  <script>
+    // Hamburger Menü Funktion
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.getElementById('primary-navigation');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      
+      if (isOpen) {
+        nav.setAttribute('tabindex', '0');
+        nav.focus();
+        document.body.style.overflow = 'hidden'; // Scroll verhindern bei offenem Menü
+      } else {
+        nav.setAttribute('tabindex', '-1');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Menü schließen wenn auf Link geklickt (mobil)
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', false);
+          nav.setAttribute('tabindex', '-1');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Menü schließen wenn außerhalb klicken
+    document.addEventListener('click', (event) => {
+      if (!nav.contains(event.target) && !hamburger.contains(event.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+        nav.setAttribute('tabindex', '-1');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+
+
+
+
+
+
+
+
+<main class="container" style="max-width: 900px; margin-top: 2rem; padding-bottom: 4rem;">
+
+  <h2 class="section-title">Polsterreinigung bei VnV Detailing</h2>
+
+  <p class="intro-text">
+    Saubere und gepflegte Polster sind nicht nur optisch ein Gewinn, sondern tragen auch maßgeblich zu einem angenehmen Fahrgefühl bei. 
+    Bei VnV Detailing setzen wir auf eine gründliche und schonende Polsterreinigung, die hartnäckigen Schmutz entfernt und gleichzeitig das Material schont.
+  </p>
+
+  <section class="features">
+    <article class="feature-card" tabindex="0" aria-label="Tiefenreinigung">
+      <div class="icon">
+        <!-- Staubwedel SVG -->
+        <svg width="40" height="40" fill="#3182ce" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2a1 1 0 0 0-1 1v8h2V4h7v6h2V3a1 1 0 0 0-1-1H6z"/>
+          <path d="M4 14h12v2H4v-2zm2 4h8v2H6v-2z"/>
+        </svg>
+      </div>
+      <h3>Tiefenreinigung</h3>
+      <p>Wir entfernen tiefsitzende Flecken und Schmutzpartikel, die das Polster angreifen und unschön aussehen lassen.</p>
+    </article>
+
+    <article class="feature-card" tabindex="0" aria-label="Materialschonend">
+      <div class="icon">
+        <!-- Tropfen SVG -->
+        <svg width="40" height="40" fill="#3182ce" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2C8 8 5 12 5 16a7 7 0 0 0 14 0c0-4-3-8-7-14z"/>
+        </svg>
+      </div>
+      <h3>Materialschonend</h3>
+      <p>Wir verwenden ausschließlich schonende Reinigungsmittel, die Ihr Polstermaterial schützen und pflegen.</p>
+    </article>
+
+
+    
+       <article class="feature-card" tabindex="0" aria-label="Effektive Dampfreinigung">
+        <div class="icon" aria-hidden="true">
+          <svg width="40" height="40" fill="#3182ce" viewBox="0 0 24 24">
+            <path d="M6 18h12v2H6v-2zm3-6a3 3 0 0 1 6 0 3 3 0 0 1-6 0zm9-3h-2a4 4 0 0 0-8 0H6a6 6 0 0 1 12 0zM12 22c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2z"/>
+            <path d="M7 6h10v2H7z" fill="#3182ce"/>
+          </svg>
+        </div>
+        <h3>Effektive Dampfreinigung</h3>
+        <p>Mit modernem Dampfreiniger entfernen wir selbst tiefsitzenden Schmutz und Allergene schonend und gründlich – für ein hygienisch sauberes Polster.</p>
+      </article>
+    </section>
+    </article>
+  </section>
+
+  <section class="cta-section">
+    <h3>Jetzt Termin für Polsterreinigung vereinbaren!</h3>
+    <p>Sichern Sie sich Ihren Wunschtermin und lassen Sie Ihre Polster professionell pflegen.</p>
+    <a href="terminsichern.html"><button class="cta-button" aria-label="Termin für Polsterreinigung anfragen">Termin anfragen</button></a>
+  </section>
+
+</main>
+
+<style>
+  /* Überschriften und Text */
+  .section-title {
+    color: #3182ce;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-left: 5px solid #3182ce;
+    padding-left: 0.5rem;
+    font-size: 1.8rem;
+  }
+  .intro-text {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    color: #4a5568;
+  }
+
+  /* Features (Leistungen) */
+  .features {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .feature-card {
+    flex: 1 1 280px;
+    background: #ebf8ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgb(49 130 206 / 0.2);
+    cursor: default;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    outline-offset: 3px;
+  }
+  .feature-card:focus,
+  .feature-card:hover {
+    box-shadow: 0 8px 20px rgb(49 130 206 / 0.4);
+    transform: translateY(-6px);
+  }
+  .feature-card .icon {
+    margin-bottom: 1rem;
+  }
+  .feature-card h3 {
+    color: #2b6cb0;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+  .feature-card p {
+    color: #4a5568;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Call-to-Action Bereich */
+  .cta-section {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+    color: #fff;
+    border-radius: 15px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 8px 15px rgba(49, 130, 206, 0.5);
+  }
+  .cta-section h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.6rem;
+  }
+  .cta-section p {
+    margin: 0 0 2rem 0;
+    font-size: 1.1rem;
+  }
+  .cta-button {
+    background: #fff;
+    color: #3182ce;
+    font-weight: 700;
+    padding: 0.75rem 2.5rem;
+    border: none;
+    border-radius: 9999px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+  }
+  .cta-button:hover,
+  .cta-button:focus {
+    background-color: #2b6cb0;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    outline: none;
+  }
+</style>
+
+<script>
+  // Optional: Einfache Fade-In Animation beim Scrollen
+  const cards = document.querySelectorAll('.feature-card');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = 1;
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = 'translateY(20px)';
+    observer.observe(card);
+  });
+</script>
+
+
+
+
+
+
+<!-- Social Media Bereich -->
+<div class="social-section">
+  <h3>Folge uns auf unseren Socials</h3>
+  <div class="social-icons">
+    <a href="https://www.facebook.com/share/179DsNcUTY/?mibextid=wwXIfr" target="_blank" aria-label="Facebook">
+      <img src="https://drive.google.com/thumbnail?id=1-m-HaSj0gaRABo75bhmWAUKAj6SvULHA" alt="Facebook" />
+    </a>
+    <a href="https://www.instagram.com/vnvdetailing?igsh=ZnJkcGx2dndiM3Iy" target="_blank" aria-label="Instagram">
+      <img src="https://drive.google.com/thumbnail?id=1tUvM9Ng_heubAj1QfZLYXGTj_0E0kyo5" alt="Instagram" />
+    </a>
+    <a href="https://www.tiktok.com/@vnvdetailing?_t=ZN-8xwjLIqKSIh&_r=1" target="_blank" aria-label="TikTok">
+      <img src="https://drive.google.com/thumbnail?id=1t7romaVn-nOQqOfGeUbwIHF4QKA4Xawq" alt="TikTok" />
+    </a>
+  </div>
+</div>
+
+<style>
+  .social-section {
+    text-align: center;
+    margin: 3rem 0;
+  }
+
+  .social-section h3 {
+    font-size: 1.5rem;
+    color: #3182ce; /* Dein VnV Blau */
+    margin-bottom: 1rem;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .social-icons img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .social-icons a:hover img {
+    transform: scale(1.15);
+  }
+</style>
+
+
+
+
+
+
+
+
+ <footer>
+    <p>© 2025 VnV Detailing – Mobile Fahrzeugpflege aus Bad Berleburg</p>
+    <p>57319 Bad Berleburg</p>
+    <br>
+    <p>Kontakt:</p>
+    <p>Tel.: +49 151 11255587
+    <p>E-Mail: vnvdetailing.blb@gmail.com</p>
+    </p>
+
+  </footer>
+
+
+</body>
+</html>
