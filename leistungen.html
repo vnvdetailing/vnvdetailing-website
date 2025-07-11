@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leistungen – VnV Detailing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & Grundstyles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #1f2937;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Container */
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Header */
+    header {
+      background-color: #ebf8ff;
+      border-bottom: 1px solid #bee3f8;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      box-sizing: border-box;
+    }
+    .logo-title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo-wrapper {
+      background-color: #000;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .logo-image {
+      width: auto;
+      height: 70%;
+      object-fit: contain;
+      display: block;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #3182ce;
+      font-weight: 700;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      position: relative;
+      z-index: 101;
+    }
+    nav a {
+      color: white;
+      background-color: #3182ce;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    nav a:hover, nav a:focus {
+      background-color: #2b6cb0;
+      outline: none;
+    }
+
+    /* Hamburger Button */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 110;
+    }
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background-color: #3182ce;
+      border-radius: 2px;
+      transition: all 0.3s linear;
+      position: relative;
+      transform-origin: 1px;
+    }
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg);
+      background-color: white;
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg);
+      background-color: white;
+    }
+
+    /* Responsive Navigation */
+    @media (max-width: 768px) {
+      nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #3182ce;
+        flex-direction: column;
+        padding-top: 4rem;
+        gap: 2rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -2px 0 12px rgba(0,0,0,0.3);
+      }
+      nav.open {
+        transform: translateX(0);
+      }
+      nav a {
+        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: center;
+        border-radius: 0;
+        pointer-events: auto;
+      }
+      .hamburger {
+        display: flex;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+      .logo-wrapper {
+        width: 60px;
+        height: 60px;
+      }
+      .logo-image {
+        height: 65%;
+      }
+    }
+
+    /* Main Content */
+    main {
+      padding-top: 110px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      box-sizing: border-box;
+    }
+    h2.section-title {
+      font-size: 2.4rem;
+      color: #2b6cb0;
+      margin-bottom: 3rem;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    /* Paket Raster */
+    .pakete-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Einzelnes Paket */
+    .paket {
+      background: #f0f9ff;
+      border-radius: 1rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+    .paket:hover, .paket:focus-within {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      outline: none;
+    }
+
+    /* Bildcontainer */
+    .paket-image {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      border-bottom: 3px solid #3182ce;
+    }
+    .paket-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .paket:hover .paket-image img,
+    .paket:focus-within .paket-image img {
+      transform: scale(1.05);
+    }
+
+    /* Paket Details */
+    .paket-details {
+      padding: 1.5rem 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .paket-title {
+      font-size: 1.7rem;
+      color: #2563eb;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .paket-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 1.5rem 0;
+    }
+    .paket-list li {
+      margin-bottom: 0.7rem;
+      font-size: 1.1rem;
+      position: relative;
+      padding-left: 1.8rem;
+      line-height: 1.4;
+    }
+    .paket-list li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #2563eb;
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+    .preis {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #1e40af;
+      text-align: center;
+      border-top: 1px solid #cbd5e1;
+      padding-top: 1rem;
+    }
+
+    /* Einzelservices Bar */
+    .einzelservices-bar {
+      margin-top: 3rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #2563eb;
+      padding: 1rem;
+      background: #e6f0ff;
+      border-radius: 0.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Responsive Schriftgrößen & Layout */
+    @media (max-width: 480px) {
+      h2.section-title {
+        font-size: 1.8rem;
+      }
+      .paket-title {
+        font-size: 1.4rem;
+      }
+      .paket-list li {
+        font-size: 1rem;
+        padding-left: 1.4rem;
+      }
+      .paket-image {
+        height: 140px;
+      }
+    }
+
+
+  footer {
+      font-size: 0.875rem;
+      color: #718096;
+      text-align: center;
+      border-top: 1px solid #bee3f8;
+      padding: 1rem 1rem;
+      background-color: #ebf8ff;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+
+  </style>
+</head>
+<body>
+
+<header class="container" role="banner">
+  <div class="logo-title-wrapper">
+    <div class="logo-wrapper">
+      <img src="https://drive.google.com/thumbnail?id=1zgMHDqYmmIBx9IqEEMlX4Wm6Pp54MFyK" alt="VnV Detailing Logo" class="logo-image" />
+    </div>
+    <h1>VnV Detailing</h1>
+  </div>
+
+  <button class="hamburger" aria-label="Navigation ein-/ausblenden" aria-expanded="false" aria-controls="primary-navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+    <nav id="primary-navigation" aria-label="Hauptnavigation" tabindex="-1">
+      <a href="index.html">Hauptseite</a>
+      <a href="Leistungen.html">Leistungen</a>
+      <a href="ueberuns.html">Über uns</a>
+      <a href="rechtliches.html">Rechtliches</a>
+    </nav>
+</header>
+
+<main class="container" role="main" tabindex="-1">
+  <h2 class="section-title">Unsere Pakete</h2>
+  <section class="pakete-grid" aria-label="Pakete zur Fahrzeug-Innenraumreinigung">
+    <article class="paket" aria-labelledby="bronze-title" tabindex="0">
+      <div class="paket-image">
+        <img src="https://drive.google.com/thumbnail?id=1Mb-DEIqx-NAOcbSTqyjyuUUg_vDNAmG4" alt="Bronze-Paket Bild" loading="lazy" />
+      </div>
+      <div class="paket-details">
+        <h3 id="bronze-title" class="paket-title">Bronze-Paket</h3>
+        <ul class="paket-list">
+          <li>Staubsaugen des Innenraums</li>
+          <li>Abwischen der Oberflächen</li>
+          <li>Innenfensterreinigung</li>
+          <li>Entfernung von grobem Schmutz und Flecken</li>
+          <li>Müllentsorgung auf Wunsch</li>
+        </ul>
+        <div class="preis">ab 69€ zzgl. MwSt.</div>
+      </div>
+    </article>
+
+    <article class="paket" aria-labelledby="silber-title" tabindex="0">
+      <div class="paket-image">
+        <img src="https://drive.google.com/thumbnail?id=1cpbZOxTnI4TsgL92ZhEZtriV_-vf9yLJ" alt="Silber-Paket Bild" loading="lazy" />
+      </div>
+      <div class="paket-details">
+        <h3 id="silber-title" class="paket-title">Silber-Paket</h3>
+        <ul class="paket-list">
+          <li>Staubsaugen des Innenraums</li>
+          <li>Abwischen der Oberflächen</li>
+          <li>Innenfensterreinigung</li>
+          <li>Müllentsorgung auf Wunsch</li>
+          <li>Gründliche Schmutzentfernung</li>
+          <li>Feuchtreinigung der Kunststoffe</li>
+          <li>Türfalzenreinigung</li>
+          <li>Reinigung der Sitze und Pedale</li>
+          <li>Detaillierte Mittelkonsole- und Lenkradreinigung</li>
+          <li>Erweiterte Kofferraumreinigung</li>
+        </ul>
+        <div class="preis">ab 99€ zzgl. MwSt.</div>
+      </div>
+    </article>
+
+    <article class="paket" aria-labelledby="gold-title" tabindex="0">
+      <div class="paket-image">
+        <img src="https://drive.google.com/thumbnail?id=17Kg6PAeeaq0iKd4cA9BG3KdiVlwsJPt9" alt="Gold-Paket Bild" loading="lazy" />
+      </div>
+      <div class="paket-details">
+        <h3 id="gold-title" class="paket-title">Gold-Paket</h3>
+        <ul class="paket-list">
+          <li>Staubsaugen des Innenraums</li>
+          <li>Abwischen der Oberflächen</li>
+          <li>Innenfensterreinigung</li>
+          <li>Müllentsorgung auf Wunsch</li>
+          <li>Gründliche Schmutzentfernung</li>
+          <li>Feuchtreinigung der Kunststoffe</li>
+          <li>Türfalzenreinigung</li>
+          <li>Reinigung der Sitze und Pedale</li>
+          <li>Detaillierte Mittelkonsole- und Lenkradreinigung</li>
+          <li>Erweiterte Kofferraumreinigung</li>
+          <li>Nassreinigung der Polster</li>
+          <li>Lederreinigung inkl. Pflege</li>
+          <li>Tiefenreinigung der Teppiche und Fußmatten</li>
+          <li>Auftragen von Kunststoff-/Gummi pflege</li>
+        </ul>
+        <div class="preis">ab 139€ zzgl. MwSt.</div>
+      </div>
+    </article>
+
+    <article class="paket" aria-labelledby="diamant-title" tabindex="0">
+      <div class="paket-image">
+        <img src="https://drive.google.com/thumbnail?id=1a1CQC08-TQdG1zyHlHNZqB5jJPvHy_ap" alt="Diamant-Paket Bild" loading="lazy" />
+      </div>
+      <div class="paket-details">
+        <h3 id="diamant-title" class="paket-title">Diamant-Paket</h3>
+        <ul class="paket-list">
+          <li>Staubsaugen des Innenraums</li>
+          <li>Abwischen der Oberflächen</li>
+          <li>Innenfensterreinigung</li>
+          <li>Müllentsorgung auf Wunsch</li>
+          <li>Gründliche Schmutzentfernung</li>
+          <li>Feuchtreinigung der Kunststoffe</li>
+          <li>Türfalzenreinigung</li>
+          <li>Reinigung der Sitze und Pedale</li>
+          <li>Detaillierte Mittelkonsole- und Lenkradreinigung</li>
+          <li>Erweiterte Kofferraumreinigung</li>
+          <li>Nassreinigung der Polster</li>
+          <li>Lederreinigung inkl. Pflege</li>
+          <li>Tiefenreinigung der Teppiche und Fußmatten</li>
+          <li>Auftragen von Kunststoff-/Gummi pflege</li>
+          <li>Geruchsneutralisation</li>
+          <li>Desinfektion des Innenraums</li>
+        </ul>
+        <div class="preis">ab 199€ zzgl. MwSt.</div>
+      </div>
+    </article>
+  </section>
+
+  <div class="einzelservices-bar" tabindex="0" aria-live="polite">
+    Einzelservices auf Anfrage möglich
+  </div>
+</main>
+
+<script>
+  const hamburger = document.querySelector('.hamburger');
+  const nav = document.querySelector('nav');
+
+  hamburger.addEventListener('click', () => {
+    const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+    hamburger.setAttribute('aria-expanded', !expanded);
+    hamburger.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+
+  // Schließen, wenn Klick außerhalb der Navigation
+  document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target) && !hamburger.contains(e.target) && nav.classList.contains('open')) {
+      nav.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', false);
+    }
+  });
+</script>
+
+
+
+
+
+
+
+<section class="contact-section">
+  <h3>Jetzt Termin vereinbaren</h3>
+  <p>Einfach per WhatsApp, Telefon oder E-Mail – wir freuen uns auf Ihre Anfrage!</p>
+  <div class="contact-buttons">
+    <a href="https://wa.me/+4915111255587?text=Hallo%20VnV%20Detailing,%20ich%20möchte%20einen%20Termin%20vereinbaren." target="_blank" rel="noopener" class="button">WhatsApp</a>
+    <a href="tel:+4915111255587" class="button">Telefon</a>
+    <a href="mailto:vnvdetailing.blb@gmail.com" class="button">E-Mail</a>
+    <a href="terminsichern.html" class="button">Formular</a>
+  </div>
+</section>
+
+<style>
+.contact-section {
+  background-color: #cfeafe;
+  padding: 3rem 1rem;
+  text-align: center;
+  border-radius: 1rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+.contact-section h3 {
+  font-size: 2rem;
+  color: #2c5282;
+  margin-bottom: 1rem;
+}
+
+.contact-section p {
+  color: #4a5568;
+  margin-bottom: 2rem;
+}
+
+.contact-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0 1rem;
+}
+
+.contact-buttons a {
+  min-width: 140px;
+}
+
+.button {
+  background-color: #3182ce;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #2b6cb0;
+}
+</style>
+
+
+
+
+
+<!-- Social Media Bereich -->
+<div class="social-section">
+  <h3>Folge uns auf unseren Socials</h3>
+  <div class="social-icons">
+    <a href="https://www.facebook.com/share/179DsNcUTY/?mibextid=wwXIfr" target="_blank" aria-label="Facebook">
+      <img src="https://drive.google.com/thumbnail?id=1-m-HaSj0gaRABo75bhmWAUKAj6SvULHA" alt="Facebook" />
+    </a>
+    <a href="https://www.instagram.com/vnvdetailing?igsh=ZnJkcGx2dndiM3Iy" target="_blank" aria-label="Instagram">
+      <img src="https://drive.google.com/thumbnail?id=1tUvM9Ng_heubAj1QfZLYXGTj_0E0kyo5" alt="Instagram" />
+    </a>
+    <a href="https://www.tiktok.com/@vnvdetailing?_t=ZN-8xwjLIqKSIh&_r=1" target="_blank" aria-label="TikTok">
+      <img src="https://drive.google.com/thumbnail?id=1t7romaVn-nOQqOfGeUbwIHF4QKA4Xawq" alt="TikTok" />
+    </a>
+  </div>
+</div>
+
+<style>
+  .social-section {
+    text-align: center;
+    margin: 3rem 0;
+  }
+
+  .social-section h3 {
+    font-size: 1.5rem;
+    color: #3182ce; /* Dein VnV Blau */
+    margin-bottom: 1rem;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .social-icons img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .social-icons a:hover img {
+    transform: scale(1.15);
+  }
+</style>
+
+
+
+
+
+
+<br>
+
+ <footer>
+    <p>© 2025 VnV Detailing – Mobile Fahrzeugpflege aus Bad Berleburg</p>
+    <p>57319 Bad Berleburg</p>
+    <br>
+    <p>Kontakt:</p>
+    <p>Tel.: +49 151 11255587
+    <p>E-Mail: vnvdetailing.blb@gmail.com</p>
+    </p>
+
+  </footer>
+
+
+
+
+
+
+
+
+</body>
+</html>

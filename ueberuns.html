@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VnV Detailing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Grund-Stile */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #1f2937;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    /* Container für max Breite */
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    /* Navigationsleiste (Header) fixiert oben */
+    header {
+      background-color: #ebf8ff; /* hellblauer Hintergrund */
+      border-bottom: 1px solid #bee3f8;
+      padding: 1rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed; /* fixiert oben */
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Wrapper für Logo + Titel */
+    .logo-title-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Logo-Kreis */
+    .logo-wrapper {
+      background-color: #000;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Logo-Bild */
+    .logo-image {
+      width: auto;
+      height: 70%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Titel */
+    h1 {
+      font-size: 1.8rem;
+      color: #3182ce;
+      font-weight: 700;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* Navigation (Desktop) */
+    nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      position: relative;
+      z-index: 15;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Navigation Links */
+    nav a {
+      color: white;
+      background-color: #3182ce;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    nav a:hover {
+      background-color: #2b6cb0;
+    }
+
+    /* Hamburger Button (standard versteckt) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 1100;
+    }
+    .hamburger span {
+      width: 100%;
+      height: 3px;
+      background-color: #3182ce;
+      border-radius: 2px;
+      transition: all 0.3s linear;
+      position: relative;
+      transform-origin: 1px;
+    }
+
+    /* Hamburger animiert zum X wenn offen */
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg);
+      background-color: white;
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg);
+      background-color: white;
+    }
+
+    /* Mobile Ansicht */
+    @media (max-width: 768px) {
+      /* Navigation als Seitenmenü rechts */
+      nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 250px;
+        background-color: #3182ce;
+        flex-direction: column;
+        padding-top: 4rem;
+        gap: 2rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -2px 0 12px rgba(0,0,0,0.3);
+        z-index: 1050;
+      }
+      nav.open {
+        transform: translateX(0);
+      }
+
+      /* Navigation Links größer und volle Breite */
+      nav a {
+        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: center;
+        border-radius: 0;
+        pointer-events: auto; /* Links anklickbar */
+      }
+
+      /* Hamburger Button sichtbar */
+      .hamburger {
+        display: flex;
+      }
+
+      /* Logo Größe bleibt gleich */
+      .logo-wrapper {
+        width: 80px;
+        height: 80px;
+      }
+      .logo-image {
+        height: 70%;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Body-Inhalt bekommt oben padding, damit Header nicht überlappt */
+    body {
+      padding-top: 100px; /* Header Höhe + etwas Abstand */
+    }
+
+
+  footer {
+      font-size: 0.875rem;
+      color: #718096;
+      text-align: center;
+      border-top: 1px solid #bee3f8;
+      padding: 1rem 1rem;
+      background-color: #ebf8ff;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigationsleiste / Header -->
+  <header class="container" role="banner">
+    <div class="logo-title-wrapper">
+      <div class="logo-wrapper" role="img" aria-label="Firmenlogo">
+        <img src="https://drive.google.com/thumbnail?id=1zgMHDqYmmIBx9IqEEMlX4Wm6Pp54MFyK" alt="VnV Detailing Logo" class="logo-image" />
+      </div>
+      <h1>VnV Detailing</h1>
+    </div>
+
+    <!-- Hamburger Menü Button -->
+    <button class="hamburger" aria-label="Navigation ein-/ausblenden" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Navigation -->
+    <nav id="primary-navigation" aria-label="Hauptnavigation" tabindex="-1">
+      <a href="index.html">Hauptseite</a>
+      <a href="leistungen.html">Leistungen</a>
+      <a href="ueberuns.html">Über uns</a>
+      <a href="rechtliches.html">Rechtliches</a>
+    </nav>
+  </header>
+
+  <script>
+    // Hamburger Menü Funktion
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.getElementById('primary-navigation');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      
+      if (isOpen) {
+        nav.setAttribute('tabindex', '0');
+        nav.focus();
+        document.body.style.overflow = 'hidden'; // Scroll verhindern bei offenem Menü
+      } else {
+        nav.setAttribute('tabindex', '-1');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Menü schließen wenn auf Link geklickt (mobil)
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', false);
+          nav.setAttribute('tabindex', '-1');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Menü schließen wenn außerhalb klicken
+    document.addEventListener('click', (event) => {
+      if (!nav.contains(event.target) && !hamburger.contains(event.target) && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+        nav.setAttribute('tabindex', '-1');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+<section style="max-width: 900px; margin: 4rem auto; padding: 2rem; font-family: 'Inter', sans-serif; color: #1f2937; line-height: 1.7;">
+
+  <h2 style="text-align: center; font-size: 2.5rem; color: #3182ce; margin-bottom: 0.5rem;">Über uns</h2>
+  <p style="text-align: center; font-weight: 600; font-size: 1.2rem; color: #4a5568;">Vincenzo Maisto & Vincenzo Marino</p>
+
+  <div style="height: 4px; width: 80px; background: #3182ce; margin: 1.5rem auto 3rem auto; border-radius: 4px;"></div>
+
+  <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+    Alles fing ganz einfach an: Zwei Freunde, ein Eimer, ein Schwamm und viel Liebe fürs Detail. <strong>Jedes Wochenende</strong> standen wir an der SB-Waschbox und haben unsere Autos <em>von Hand</em> gewaschen – gründlicher, als es jede Anlage je könnte.
+  </p>
+
+  <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+    Freunde, Familie, Nachbarn wollten bald, dass wir auch ihre Autos reinigen. „Könnt ihr mal? Ihr macht das doch so gut!“ – das hörten wir ständig. So entstand aus unserem Hobby eine Leidenschaft: <strong>saubere Autos, ganz ohne Stress für unsere Kunden.</strong>
+  </p>
+
+  <blockquote style="font-size: 1.3rem; font-style: italic; color: #2b6cb0; margin: 2rem 0; border-left: 4px solid #3182ce; padding-left: 1rem;">
+    „Wir geben uns erst zufrieden, wenn auch der kleinste Fleck verschwunden ist – und unsere Kunden mit einem Lächeln einsteigen.“
+  </blockquote>
+
+  <h3 style="color: #3182ce; margin-top: 3rem; margin-bottom: 0.5rem; font-size: 1.5rem;">Warum VnV Detailing?</h3>
+  <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+    Wir sind nicht irgendein Aufbereiter. Wir kommen zu dir – egal ob Auffahrt, Garage oder Parkplatz. <strong>VnV steht für Vincenzo & Vincenzo</strong> – und für die Liebe zum Detail. Für uns ist das mehr als Arbeit: Es ist unser Hobby, unser Antrieb, unsere Mission.
+  </p>
+
+  <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+    Wir arbeiten so, als wäre jedes Auto unser eigenes. Bis in die kleinste Ritze. Mit mehr Zeit, mehr Hingabe und einem Auge für Details, die andere übersehen.
+  </p>
+
+  <h3 style="color: #3182ce; margin-top: 3rem; margin-bottom: 0.5rem; font-size: 1.5rem;">Unser Ziel</h3>
+  <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+    Wir wollen VnV dorthin bringen, wo man uns braucht. Immer mobil, immer persönlich. Und irgendwann mit einem Team, das unsere Werte teilt: <strong>Sauberkeit, Qualität, Vertrauen.</strong> Ein Name, der in ganz Deutschland – und vielleicht eines Tages weltweit – für makellose Aufbereitung steht.
+  </p>
+
+  <p style="text-align: center; font-size: 1.3rem; font-weight: 700; color: #3182ce;">
+    VnV Detailing – Weil jedes Detail Zählt 🚙✨
+  </p>
+
+</section>
+
+
+
+
+
+
+<!-- Social Media Bereich -->
+<div class="social-section">
+  <h3>Folge uns auf unseren Socials</h3>
+  <div class="social-icons">
+    <a href="https://www.facebook.com/share/179DsNcUTY/?mibextid=wwXIfr" target="_blank" aria-label="Facebook">
+      <img src="https://drive.google.com/thumbnail?id=1-m-HaSj0gaRABo75bhmWAUKAj6SvULHA" alt="Facebook" />
+    </a>
+    <a href="https://www.instagram.com/vnvdetailing?igsh=ZnJkcGx2dndiM3Iy" target="_blank" aria-label="Instagram">
+      <img src="https://drive.google.com/thumbnail?id=1tUvM9Ng_heubAj1QfZLYXGTj_0E0kyo5" alt="Instagram" />
+    </a>
+    <a href="https://www.tiktok.com/@vnvdetailing?_t=ZN-8xwjLIqKSIh&_r=1" target="_blank" aria-label="TikTok">
+      <img src="https://drive.google.com/thumbnail?id=1t7romaVn-nOQqOfGeUbwIHF4QKA4Xawq" alt="TikTok" />
+    </a>
+  </div>
+</div>
+
+<style>
+  .social-section {
+    text-align: center;
+    margin: 3rem 0;
+  }
+
+  .social-section h3 {
+    font-size: 1.5rem;
+    color: #3182ce; /* Dein VnV Blau */
+    margin-bottom: 1rem;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .social-icons img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .social-icons a:hover img {
+    transform: scale(1.15);
+  }
+</style>
+
+
+
+
+
+
+
+
+ <footer>
+    <p>© 2025 VnV Detailing – Mobile Fahrzeugpflege aus Bad Berleburg</p>
+    <p>57319 Bad Berleburg</p>
+    <br>
+    <p>Kontakt:</p>
+    <p>Tel.: +49 151 11255587
+    <p>E-Mail: vnvdetailing.blb@gmail.com</p>
+    </p>
+
+  </footer>
+
+
+
+</body>
+</html>
