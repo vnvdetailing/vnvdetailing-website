@@ -5,6 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VnV Detailing – Mobile Fahrzeugpflege Bad Berleburg</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  
+  
+  
+  <!-- Fixierter Banner -->
+<div id="glass-banner">
+  <p><strong>Neu:</strong> Schnell Glas Versiegelung – Jetzt erhältlich! <a href="versig.html">Mehr erfahren</a></p>
+  <button id="glass-banner-close">&times;</button>
+</div>
+
+<style>
+  #glass-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #3182ce;
+    color: white;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    z-index: 9999;
+  }
+  #glass-banner a {
+    color: #ebf8ff;
+    text-decoration: underline;
+    margin-left: 0.5rem;
+  }
+  #glass-banner-close {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+</style>
+
+<script>
+  document.getElementById('glass-banner-close').addEventListener('click', function() {
+    document.getElementById('glass-banner').style.display = 'none';
+  });
+</script>
+
+  
+  
+  
+  
   <style>
     html, body {
       margin: 0;
